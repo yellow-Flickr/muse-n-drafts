@@ -11,10 +11,9 @@ class Category extends Model
     /** @use HasFactory<CategoryFactory> */
     use HasFactory;
 
-    public function category()
+    public function posts()
     {
         return $this->hasMany(Post::class);
-
     }
 
 }

@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API\V1;
 
-use App\Http\Requests\StorePostRequest;
-use App\Http\Requests\UpdatePostRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\StorePostRequest;
+use App\Http\Requests\V1\UpdatePostRequest;
 use App\Models\Post;
 
 class PostController extends Controller
@@ -13,7 +14,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+       return Post::all();
     }
 
     /**

@@ -18,6 +18,8 @@ return new class extends Migration
             $table->text('content');
             $table->foreignIdFor(Category::class)->constrained();
             $table->timestamps();
+
+            $table->fullText(['title', 'content']);
         });
     }
 

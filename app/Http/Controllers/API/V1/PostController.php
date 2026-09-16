@@ -3,20 +3,30 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API\V1\StorePostRequest ;
-use App\Http\Requests\API\V1\UpdatePostRequest ;
+use App\Http\Requests\API\V1\StorePostRequest;
+use App\Http\Requests\API\V1\UpdatePostRequest;
 use App\Http\Resources\V1\PostResource;
-use App\Http\Resources\V1PostResource;
 use App\Models\Post;
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-       return PostResource::collection(Post::paginate());
+        $query = Post::query();
+
+        if ($request->filled('category')) {
+            $query->withCategory($request->string('category')->toString());
+        }
+
+        if ($request->filled('tag')) {
+            $query->haveTag($request->string('tag')->toString());
+        }
+
+        return PostResource::collection($query->paginate());
     }
 
     /**
@@ -40,7 +50,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return new PostResource($post); 
+        return new PostResource($post);
     }
 
     /**

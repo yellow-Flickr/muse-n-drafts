@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Queries\API\V1\PostFilterQuery;
+use App\Http\Queries\API\V1\PostSearchQuery;
 use App\Http\Requests\API\V1\StorePostRequest;
 use App\Http\Requests\API\V1\UpdatePostRequest;
 use App\Http\Resources\V1\PostResource;
@@ -14,17 +16,30 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, PostSearchQuery $postSearch, PostFilterQuery $postFilter)
     {
         $query = Post::query();
 
-        if ($request->filled('category')) {
-            $query->withCategory($request->string('category')->toString());
-        }
+        // if ($request->filled('category')) {
+        //     $query->category($request->string('category')->toString());
+        // }
 
-        if ($request->filled('tag')) {
-            $query->haveTag($request->string('tag')->toString());
-        }
+        // if ($request->filled('tag')) {
+        //     $query->tag($request->string('tag')->toString());
+        // }
+
+        $postSearch->apply(
+            $query,
+            $request->string('search')->trim()->value()
+        );
+
+        $postFilter->apply(
+            $query,
+            $request->only([
+                'category',
+                'tag',
+            ])
+        );
 
         return PostResource::collection($query->paginate());
     }

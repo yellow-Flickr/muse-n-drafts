@@ -25,23 +25,23 @@ class Post extends Model
 
     }
 
-    #[Scope]
-    protected function withCategory(
-        Builder $query,
-        string $category
-    ): void {
-        $query->whereHas('category', function ($query) use ($category) {
-            $query->where('name', $category);
-        });
-    }
+    // #[Scope]
+    // public function scopeCategory(
+    //     Builder $query,
+    //     string $category
+    // ) {
+    //  return   $query->whereHas('category', function ($query) use ($category) {
+    //         $query->where('name', $category);
+    //     });
+    // }
 
-    #[Scope]
-    protected function haveTag(
-        Builder $query,
-        string $tag
-    ): void {
-        $query->whereHas('tags', function ($query) use ($tag) {
-            $query->where('name', $tag);
-        });
-    }
+    // #[Scope]
+    // public function scopeTag(
+    //     Builder $query,
+    //     string $tag
+    // ) {
+    //  return   $query->whereHas('tags', function ($query) use ($tag) {
+    //         $query->where('name', $tag);
+    //     });
+    // }
 }

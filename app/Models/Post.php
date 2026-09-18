@@ -44,4 +44,20 @@ class Post extends Model
     //         $query->where('name', $tag);
     //     });
     // }
+
+    #[Scope]
+    public function scopeSort(
+        Builder $query,
+       ?string $sort = 'id'
+    ) {
+        $direction = 'asc';
+
+        if (strpos($sort, '-') == 0) {
+            $direction = 'desc';
+            $sort = substr($sort, 1);
+        }
+
+        return $query->orderBy($sort, $direction);
+
+    }
 }

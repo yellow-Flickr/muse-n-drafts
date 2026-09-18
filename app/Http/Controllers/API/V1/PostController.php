@@ -41,7 +41,7 @@ class PostController extends Controller
             ])
         );
 
-        return PostResource::collection($query->paginate());
+        return PostResource::collection($query->sort($request->string('sort')->toString())->paginate());
     }
 
     /**

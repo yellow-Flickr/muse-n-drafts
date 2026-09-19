@@ -5,11 +5,10 @@ use App\Http\Controllers\API\V1\PostController;
 use App\Http\Controllers\API\V1\TagController;
 use Illuminate\Support\Facades\Route;
 
-Route::apiResource('posts', PostController::class);
+Route::apiResource('posts', PostController::class)->except('replace');
+Route::patch('posts/{post}', [PostController::class, 'update']);
+Route::put('posts/{post}', [PostController::class, 'replace']);
+
 Route::apiResource('categories', CategoryController::class);
+
 Route::apiResource('tags', TagController::class);
-
-
-
-
-    

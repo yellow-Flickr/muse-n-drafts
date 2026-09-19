@@ -8,7 +8,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Override;
 
-class UpdatePostRequest extends FormRequest
+class ReplacePostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,9 +28,9 @@ class UpdatePostRequest extends FormRequest
         return [
             // "data" => 'required|array',
             // "data.attributes" => 'required|array',
-            'data.attributes.title' => 'sometimes|string|max:100',
-            'data.attributes.content' => 'sometimes|string',
-            'data.attributes.category' => 'sometimes|string|exists:App\Models\Category,name',
+            'data.attributes.title' => 'required|string|max:100',
+            'data.attributes.content' => 'required|string',
+            'data.attributes.category' => 'required|string|exists:App\Models\Category,name',
             'data.attributes.tags' => 'sometimes|nullable|array|max:4',
             'data.attributes.tags.*' => 'string|distinct|exists:App\Models\Tag,name',
         ];
@@ -52,19 +52,13 @@ class UpdatePostRequest extends FormRequest
     #[Override]
     protected function passedValidation()
     {
-        if ($this->exists('category')) {
-            $categoryID = Category::where('name', $this->input('data.attributes.category'))->value('id');
-            $this->merge([
-                'category_id' => $categoryID,
-            ]);
-        }
-
-        if ($this->exists('tags')) {
-            $tagIDs = Tag::whereIn('name', $this->input('data.attributes.tags', []))->pluck('id')->values();
-            $this->merge([
-                'tags' => $tagIDs,
-            ]);
-        }
-
+        $categoryID = Category::where('name', $this->input('data.attributes.category'))->value('id');
+        $tagIDs = Tag::whereIn('name', $this->input('data.attributes.tags', []))->pluck('id')->values();
+        $this->replace([
+            'title' =>$this->input('data.attributes.title'),
+            'content' =>$this->input('data.attributes.content'),
+            'category_id' => $categoryID,
+            'tags' => $tagIDs,
+        ]);
     }
 }

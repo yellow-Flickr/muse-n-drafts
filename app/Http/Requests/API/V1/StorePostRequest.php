@@ -40,6 +40,7 @@ class StorePostRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'data.attributes.title.max' => 'Title too long!',
             'data.attributes.category.exists' => 'Only existing category names are allowed!',
             'data.attributes.tags.array' => 'Tags must be in an array!',
             'data.attributes.tags.max' => 'No more than 4 tags are allowed!',

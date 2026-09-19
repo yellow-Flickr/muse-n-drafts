@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Queries\API\V1\PostFilterQuery;
 use App\Http\Queries\API\V1\PostSearchQuery;
+use App\Http\Requests\API\V1\ReplacePostRequest;
 use App\Http\Requests\API\V1\StorePostRequest;
 use App\Http\Requests\API\V1\UpdatePostRequest;
 use App\Http\Resources\V1\PostResource;
@@ -61,7 +62,7 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        // dd($request->collect()['tags']->values());
+        // dd($request->collect());
 
         $post = Post::create($request->collect()->toArray());
         $post->tags()->sync($request->collect()['tags']);
@@ -92,11 +93,38 @@ class PostController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource in storage. PATCH
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(UpdatePostRequest $request, $post_id)
     {
-        //
+        try {
+            $post = Post::findorFail($post_id);
+            dd($request->collect());
+            $post->update($request->collect()->toArray());
+            $post->tags()->sync($request->collect()['tags']);
+
+            return new PostResource($post);
+        } catch (ModelNotFoundException $th) {
+            return $this->error('Post not found!', 404);
+        }
+    }
+
+    /**
+     * Replace the specified resource in storage. PUT
+     */
+    public function replace(ReplacePostRequest $request, $post_id)
+    {
+        try {
+            $post = Post::findorFail($post_id);
+
+            // dd($request->collect());
+            $post->update($request->collect()->toArray());
+            $post->tags()->sync($request->collect()['tags']);
+
+            return new PostResource($post);
+        } catch (ModelNotFoundException $th) {
+            return $this->error('Post not found!', 404);
+        }
     }
 
     /**

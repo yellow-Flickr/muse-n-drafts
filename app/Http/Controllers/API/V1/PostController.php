@@ -10,6 +10,7 @@ use App\Http\Requests\API\V1\UpdatePostRequest;
 use App\Http\Resources\V1\PostResource;
 use App\Models\Post;
 use App\Traits\ApiResponse;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -71,9 +72,15 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show($post_id)
     {
-        return new PostResource($post);
+        try {
+            $post = Post::findorFail($post_id);
+
+            return new PostResource($post);
+        } catch (ModelNotFoundException $th) {
+            return $this->error('Post not found!', 404);
+        }
     }
 
     /**
@@ -95,8 +102,15 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy($post_id)
     {
-        //
+        try {
+            $post = Post::findorFail($post_id);
+            $post->delete();
+
+            return $this->ok('Post Deleted!');
+        } catch (ModelNotFoundException $th) {
+            return $this->error('Post not found!', 404);
+        }
     }
 }

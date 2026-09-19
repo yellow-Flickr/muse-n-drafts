@@ -65,7 +65,7 @@ class PostController extends Controller
         // dd($request->collect());
 
         $post = Post::create($request->collect()->toArray());
-        $post->tags()->sync($request->collect()['tags']);
+        $post->tags()->sync($request->input('data.attributes.tags'));
 
         return response()->json(new PostResource($post), 201);
     }
@@ -99,9 +99,10 @@ class PostController extends Controller
     {
         try {
             $post = Post::findorFail($post_id);
-            dd($request->collect());
-            $post->update($request->collect()->toArray());
-            $post->tags()->sync($request->collect()['tags']);
+            $post->update($request->input('data.attributes'));
+            if ($request->exists('data.attributes.tags')) {
+                $post->tags()->sync($request->input('data.attributes.tags'));
+            }
 
             return new PostResource($post);
         } catch (ModelNotFoundException $th) {
@@ -116,10 +117,9 @@ class PostController extends Controller
     {
         try {
             $post = Post::findorFail($post_id);
-
-            // dd($request->collect());
-            $post->update($request->collect()->toArray());
-            $post->tags()->sync($request->collect()['tags']);
+            // dd($request->toArray());
+            $post->update($request->input('data.attributes'));
+            $post->tags()->sync($request->input('data.attributes.tags'));
 
             return new PostResource($post);
         } catch (ModelNotFoundException $th) {

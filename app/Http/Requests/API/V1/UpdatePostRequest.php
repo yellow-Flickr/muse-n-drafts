@@ -52,17 +52,17 @@ class UpdatePostRequest extends FormRequest
     #[Override]
     protected function passedValidation()
     {
-        if ($this->exists('category')) {
+        if ($this->exists('data.attributes.category')) {
             $categoryID = Category::where('name', $this->input('data.attributes.category'))->value('id');
             $this->merge([
-                'category_id' => $categoryID,
+                'data.attributes.category_id' => $categoryID,
             ]);
         }
 
-        if ($this->exists('tags')) {
+        if ($this->exists('data.attributes.tags')) {
             $tagIDs = Tag::whereIn('name', $this->input('data.attributes.tags', []))->pluck('id')->values();
             $this->merge([
-                'tags' => $tagIDs,
+                'data.attributes.tags' => $tagIDs,
             ]);
         }
 

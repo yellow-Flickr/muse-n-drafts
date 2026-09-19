@@ -53,12 +53,16 @@ class ReplacePostRequest extends FormRequest
     protected function passedValidation()
     {
         $categoryID = Category::where('name', $this->input('data.attributes.category'))->value('id');
-        $tagIDs = Tag::whereIn('name', $this->input('data.attributes.tags', []))->pluck('id')->values();
-        $this->replace([
-            'title' =>$this->input('data.attributes.title'),
-            'content' =>$this->input('data.attributes.content'),
-            'category_id' => $categoryID,
-            'tags' => $tagIDs,
-        ]);
+        $tagIDs = Tag::whereIn('name', $this->input('data.attributes.tags', []))->pluck('id')->toArray();
+        $this->merge([
+                'data.attributes.category_id' => $categoryID,
+                'data.attributes.tags' => $tagIDs,
+            ]
+        );
+
+        // $this->replace( array_merge($this->input('data.attributes'),[
+        //     'category_id' => $categoryID,
+        //     'tags' => $tagIDs,
+        // ]));
     }
 }

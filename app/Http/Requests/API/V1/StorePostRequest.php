@@ -54,11 +54,11 @@ class StorePostRequest extends FormRequest
     {
         $categoryID = Category::where('name', $this->input('data.attributes.category'))->value('id');
         $tagIDs = Tag::whereIn('name', $this->input('data.attributes.tags', []))->pluck('id')->values();
-        $this->replace([
-            'title' =>$this->input('data.attributes.title'),
-            'content' =>$this->input('data.attributes.content'),
-            'category_id' => $categoryID,
-            'tags' => $tagIDs,
-        ]);
+        $this->merge([
+            'data.attributes.category_id' => $categoryID,
+            'data.attributes.tags' => $tagIDs,
+        ]
+        );
+
     }
 }

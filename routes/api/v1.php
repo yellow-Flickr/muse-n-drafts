@@ -1,11 +1,17 @@
 <?php
 
+use App\Http\Controllers\API\V1\AuthController;
 use App\Http\Controllers\API\V1\CategoryController;
 use App\Http\Controllers\API\V1\PostController;
 use App\Http\Controllers\API\V1\TagController;
 use Illuminate\Support\Facades\Route;
 
-Route::apiResource('posts', PostController::class)->except(['replace','update']);
+// Route::middleware('auth:sanctum')->group();
+
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+
+Route::apiResource('posts', PostController::class)->except(['replace', 'update']);
 Route::patch('posts/{post}', [PostController::class, 'update']);
 Route::put('posts/{post}', [PostController::class, 'replace']);
 

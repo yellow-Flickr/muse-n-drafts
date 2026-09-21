@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Resources\V1;
+namespace App\Http\Resources\API\V1;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Str;
 
-class PostResource extends JsonResource
+class TagResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,18 +16,11 @@ class PostResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'type' => 'post',
+            'type' => 'tag',
             'id' => $this->id,
             'attributes' => [
-                'title' => $this->title,
-                // 'content' => Str::words($this->content, 7), 
-                'content' => $this->when(
-                    $request->routeIs('posts.index'),
-                    Str::words($this->content, 7),
-                    $this->content
-                ), 
-                'category' => $this->category->name,
-                'tags' => $this->tags->pluck('name')->values(),
+                'name' => $this->name,
+                'noOfPosts' => $this->posts->pluck('title')->values()->count(),
                 'createdAt' => $this->created_at,
                 'updatedAt' => $this->updated_at,
             ],

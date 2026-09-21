@@ -3,18 +3,17 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\API\V1\TagResource;
-use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class TagController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return TagResource::collection(Tag::paginate());
+        //
     }
 
     /**
@@ -28,15 +27,15 @@ class TagController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Tag $tag)
+    public function show(User $user)
     {
-        return new TagResource($tag);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Tag $tag)
+    public function update(Request $request, User $user)
     {
         //
     }
@@ -44,7 +43,7 @@ class TagController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Tag $tag)
+    public function destroy(User $user)
     {
         //
     }

@@ -8,7 +8,7 @@ use App\Http\Queries\API\V1\PostSearchQuery;
 use App\Http\Requests\API\V1\ReplacePostRequest;
 use App\Http\Requests\API\V1\StorePostRequest;
 use App\Http\Requests\API\V1\UpdatePostRequest;
-use App\Http\Resources\V1\PostResource;
+use App\Http\Resources\API\V1\PostResource;
 use App\Models\Post;
 use App\Traits\ApiResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -46,7 +46,7 @@ class PostController extends Controller
             ])
         );
 
-        return PostResource::collection($query->sort($request->string('sort')->toString())->paginate());
+        return PostResource ::collection($query->sort($request->string('sort')->toString())->paginate());
     }
 
     // /**

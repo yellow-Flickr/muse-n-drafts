@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,7 +22,8 @@ class PostFactory extends Factory
         return [
             'title' => fake()->sentence(),
             'content' => fake()->text(),
-            'category_id' => Category::factory()->recycle(Category::all()),
+            'category_id' => Category::factory(),
+            'author' => User::factory(),
         ];
     }
 }

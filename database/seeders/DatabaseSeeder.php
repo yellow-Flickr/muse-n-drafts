@@ -19,7 +19,11 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         Category::factory(10)->create();
-        $posts = Post::factory(50)->create();
+        User::factory(5)->create();
+        $posts = Post::factory(50)
+                        ->recycle(Category::all())
+                        ->recycle(User::all())
+                        ->create();
         $tags = Tag::factory(20)->create();
 
         foreach ($posts as $post) {
@@ -28,6 +32,5 @@ class DatabaseSeeder extends Seeder
             );
         }
 
-        User::factory(5)->create();
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Requests\API\V1;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Override;
 
 class UserRequest extends FormRequest
 {
@@ -12,7 +13,7 @@ class UserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,10 +25,18 @@ class UserRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'email' => 'required|string|email',
-            'password' => 'required|string|min:8',
-            'confirm-password' => 'required|string|min:8',
-            'role' => 'required|string',
+            'email' => 'required|string|email|unique:App\Models\User,email',
+            'password' => 'required|confirmed|min:8',
+        ];
+    }
+
+    #[Override]
+    public function messages()
+    {
+        return [
+            'email:unique'=>'User already exists!',
+            'email:email'=>'Valid email required!',
+            'password:min'=>'Password requires 8 characters minimum!'
         ];
     }
 }

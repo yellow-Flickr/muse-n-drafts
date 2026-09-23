@@ -18,7 +18,12 @@ class Post extends Model
         'title',
         'content',
         'category_id',
+        'author_id',
         // 'tags',
+    ];
+
+    protected $with = [
+        'category',
     ];
 
     public function category()

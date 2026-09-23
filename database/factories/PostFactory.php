@@ -23,7 +23,7 @@ class PostFactory extends Factory
             'title' => fake()->sentence(),
             'content' => fake()->text(),
             'category_id' => Category::factory(),
-            'author' => User::factory(),
+            'author_id' => User::factory(),
         ];
     }
 }

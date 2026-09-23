@@ -8,8 +8,8 @@ use App\Http\Requests\API\V1\UserRequest;
 use App\Http\Resources\API\V1\UserResource;
 use App\Models\User;
 use App\Traits\ApiResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
 
 class AuthController extends Controller
 {
@@ -28,7 +28,7 @@ class AuthController extends Controller
         return $this->ok(
             message: 'Authenticated',
             data: [
-                'token' => $user->createToken('API token for '.$user->email, now()->addMonth())->plainTextToken,
+                'token' => $user->createToken('API token for '.$user->email,['*'], now()->addMonth())->plainTextToken,
             ]
         );
     }
@@ -50,6 +50,8 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
 
         return $this->ok('User Logged Out!');
-
     }
+
+    // forgot-password
+    // reset-password
 }

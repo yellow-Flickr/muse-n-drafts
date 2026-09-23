@@ -36,7 +36,6 @@ class AuthController extends Controller
     public function register(UserRequest $request)
     {
         // $request->validate($request->all())
-
         $user = User::create([
             ...$request->validated(),
             'role' => 'author',
@@ -48,7 +47,6 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
-
         return $this->ok('User Logged Out!');
     }
 

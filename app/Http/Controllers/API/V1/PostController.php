@@ -23,7 +23,10 @@ class PostController extends Controller
      */
     public function index(Request $request, PostSearchQuery $postSearch, PostFilterQuery $postFilter)
     {
-        $query = Post::query();
+        // $query = auth()->user()->posts()->with(['category','tags'])->getQuery();
+
+        $query = Post::with(['category','tags'])
+                    ->where('author_id',auth()->id());
 
         // if ($request->filled('category')) {
         //     $query->category($request->string('category')->toString());

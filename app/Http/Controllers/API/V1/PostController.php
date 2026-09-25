@@ -13,6 +13,8 @@ use App\Models\Post;
 use App\Traits\ApiResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -25,8 +27,14 @@ class PostController extends Controller
     {
         // $query = auth()->user()->posts()->with(['category','tags'])->getQuery();
 
-        $query = Post::with(['category','tags'])
-                    ->where('author_id',auth()->id());
+
+        if (Auth::hasUser()) {
+            # code...
+            $query = Post::with(['category', 'tags'])
+                ->where('author_id', auth()->id());
+                
+        }
+            $query = Post::with(['category', 'tags']);
 
         // if ($request->filled('category')) {
         //     $query->category($request->string('category')->toString());
@@ -49,7 +57,7 @@ class PostController extends Controller
             ])
         );
 
-        return PostResource ::collection($query->sort($request->string('sort')->toString())->paginate());
+        return PostResource::collection($query->sort($request->string('sort')->toString())->paginate());
     }
 
     // /**
@@ -67,10 +75,14 @@ class PostController extends Controller
     {
         // dd($request->collect());
 
-        $post = Post::create($request->collect()->toArray());
-        $post->tags()->sync($request->input('data.attributes.tags'));
-
-        return response()->json(new PostResource($post), 201);
+                // policy
+        if (Gate::authorize('index', Post::class)) {
+            return new PostResource(Post::create($request->mappedAttributes()));
+            // $post = Post::create($request->collect()->toArray());
+            // $post->tags()->sync($request->input('data.attributes.tags'));
+    
+            // return response()->json(new PostResource($post), 201);
+        }
     }
 
     /**

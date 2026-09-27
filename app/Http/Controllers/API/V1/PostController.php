@@ -27,14 +27,13 @@ class PostController extends Controller
     {
         // $query = auth()->user()->posts()->with(['category','tags'])->getQuery();
 
-
-        if (Auth::hasUser()) {
-            # code...
+        $user = Auth::guard('sanctum')->user();
+        if ($user) {
             $query = Post::with(['category', 'tags'])
-                ->where('author_id', auth()->id());
-                
-        }
+                ->where('author_id', $user->id);
+        } else {
             $query = Post::with(['category', 'tags']);
+        }
 
         // if ($request->filled('category')) {
         //     $query->category($request->string('category')->toString());
@@ -75,12 +74,12 @@ class PostController extends Controller
     {
         // dd($request->collect());
 
-                // policy
+        // policy
         if (Gate::authorize('index', Post::class)) {
             return new PostResource(Post::create($request->mappedAttributes()));
             // $post = Post::create($request->collect()->toArray());
             // $post->tags()->sync($request->input('data.attributes.tags'));
-    
+
             // return response()->json(new PostResource($post), 201);
         }
     }
@@ -112,6 +111,7 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, $post_id)
     {
+
         try {
             $post = Post::findorFail($post_id);
             $post->update($request->input('data.attributes'));

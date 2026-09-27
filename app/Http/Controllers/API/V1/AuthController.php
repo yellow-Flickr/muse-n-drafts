@@ -24,7 +24,9 @@ class AuthController extends Controller
             return $this->error('Invalid Credentials: Try Again!', 404);
         }
 
-        $user = User::firstWhere('email', $request->email)->first();
+        
+        $user = User::firstWhere('email', $request->email);
+        // dd($user);
 
         return $this->ok(
             message: 'Authenticated',

@@ -21,8 +21,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('abilities:'.TokenAbilities::DeletePost)->delete('posts/{post}', [PostController::class, 'destroy']);
     Route::middleware('abilities:'.TokenAbilities::UpdatePost)->patch('posts/{post}', [PostController::class, 'update']);
     Route::middleware('abilities:'.TokenAbilities::ReplacePost)->put('posts/{post}', [PostController::class, 'replace']);
-
+    
     Route::apiResource('categories', CategoryController::class);
-
+    
     Route::apiResource('tags', TagController::class);
-});
+
+    Route::post('/logout', [AuthController::class, 'logout']);
+    });

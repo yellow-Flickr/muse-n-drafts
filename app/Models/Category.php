@@ -16,4 +16,9 @@ class Category extends Model
         return $this->hasMany(Post::class);
     }
 
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'createdBy');
+
+    }
 }

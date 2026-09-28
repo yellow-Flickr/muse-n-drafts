@@ -65,10 +65,6 @@ class TokenAbilities
                     self::ReplaceTag,
                     self::UpdateTag,
                     self::DeleteTag,
-                    self::CreateCategory,
-                    self::ReplaceCategory,
-                    self::UpdateCategory,
-                    self::DeleteCategory,
                 ];
             case 'admin':
                 return [

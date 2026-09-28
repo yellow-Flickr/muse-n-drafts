@@ -41,7 +41,7 @@ class AuthController extends Controller
         // $request->validate($request->all())
         $user = User::create([
             ...$request->validated(),
-            'role' => 'author',
+            'role' => 'reader',
         ]);
 
         return $this->ok(message: 'Registration Successful', data: new UserResource($user));

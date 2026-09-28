@@ -11,6 +11,7 @@ use App\Http\Requests\API\V1\UpdatePostRequest;
 use App\Http\Resources\API\V1\PostResource;
 use App\Models\Post;
 use App\Traits\ApiResponse;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -72,16 +73,22 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        // dd($request->collect());
+        try {
+            // policy
+            Gate::authorize('store', Post::class);
+            // dd($request->input('data.attributes'));
+            // return new PostResource(Post::create($request->mappedAttributes()));
+            $post = Post::create($request->input('data.attributes'));
+            $post->tags()->sync($request->input('data.attributes.tags'));
 
-        // policy
-        if (Gate::authorize('index', Post::class)) {
-            return new PostResource(Post::create($request->mappedAttributes()));
-            // $post = Post::create($request->collect()->toArray());
-            // $post->tags()->sync($request->input('data.attributes.tags'));
+            // return response()->json(new PostResource($post), 201);}
 
-            // return response()->json(new PostResource($post), 201);
+            return new PostResource($post);
+        } catch (AuthorizationException $th) {
+            return $this->error('You are not authorised for this action!', 403);
+            // throw $th;
         }
+
     }
 
     /**
@@ -99,21 +106,13 @@ class PostController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Post $post)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage. PATCH
      */
     public function update(UpdatePostRequest $request, $post_id)
     {
-
         try {
             $post = Post::findorFail($post_id);
+            Gate::authorize('update', $post);
             $post->update($request->input('data.attributes'));
             if ($request->exists('data.attributes.tags')) {
                 $post->tags()->sync($request->input('data.attributes.tags'));
@@ -122,6 +121,8 @@ class PostController extends Controller
             return new PostResource($post);
         } catch (ModelNotFoundException $th) {
             return $this->error('Post not found!', 404);
+        } catch (AuthorizationException $th) {
+            return $this->error('You are not authorised for this action!', 403);
         }
     }
 
@@ -132,6 +133,7 @@ class PostController extends Controller
     {
         try {
             $post = Post::findorFail($post_id);
+            Gate::authorize('replace', $post);
             // dd($request->toArray());
             $post->update($request->input('data.attributes'));
             $post->tags()->sync($request->input('data.attributes.tags'));
@@ -139,6 +141,8 @@ class PostController extends Controller
             return new PostResource($post);
         } catch (ModelNotFoundException $th) {
             return $this->error('Post not found!', 404);
+        } catch (AuthorizationException $th) {
+            return $this->error('You are not authorised for this action!', 403);
         }
     }
 
@@ -149,11 +153,14 @@ class PostController extends Controller
     {
         try {
             $post = Post::findorFail($post_id);
+            Gate::authorize('delete', $post);
             $post->delete();
 
             return $this->ok('Post Deleted!');
         } catch (ModelNotFoundException $th) {
             return $this->error('Post not found!', 404);
+        } catch (AuthorizationException $th) {
+            return $this->error('You are not authorised for this action!', 403);
         }
     }
 }

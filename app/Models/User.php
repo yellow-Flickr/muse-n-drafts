@@ -27,7 +27,16 @@ class User extends Authenticatable
     public function posts()
     {
         return $this->hasMany(Post::class,'author_id');
+    }
+    
+    public function tags()
+    {
+        return $this->hasMany(Tag::class,'creadtedBy');
+    }
 
+    public function category()
+    {
+        return $this->hasMany(Category::class,'creadtedBy');
     }
     /**
      * Get the attributes that should be cast.

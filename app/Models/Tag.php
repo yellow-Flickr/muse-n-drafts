@@ -11,10 +11,14 @@ class Tag extends Model
     /** @use HasFactory<TagFactory> */
     use HasFactory;
 
-
     public function posts()
     {
-        return $this->belongsToMany(Post::class,'post_tag');
+        return $this->belongsToMany(Post::class, 'post_tag');
 
+    }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'createdBy');
     }
 }

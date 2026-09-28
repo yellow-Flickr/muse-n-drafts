@@ -56,6 +56,7 @@ class StorePostRequest extends FormRequest
         $tagIDs = Tag::whereIn('name', $this->input('data.attributes.tags', []))->pluck('id')->values();
         $this->merge([
             'data.attributes.category_id' => $categoryID,
+            'data.attributes.author_id' => $this->user()->id,
             'data.attributes.tags' => $tagIDs,
         ]
         );

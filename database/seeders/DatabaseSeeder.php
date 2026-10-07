@@ -18,13 +18,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Category::factory(10)->create();
         User::factory(5)->create();
+        Category::factory(10)->recycle(User::all())->create();
         $posts = Post::factory(50)
                         ->recycle(Category::all())
                         ->recycle(User::all())
                         ->create();
-        $tags = Tag::factory(20)->create();
+        $tags = Tag::factory(20)->recycle(User::all())->create();
 
         foreach ($posts as $post) {
             $post->tags()->attach(

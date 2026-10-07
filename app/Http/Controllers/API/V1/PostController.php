@@ -11,8 +11,6 @@ use App\Http\Requests\API\V1\UpdatePostRequest;
 use App\Http\Resources\API\V1\PostResource;
 use App\Models\Post;
 use App\Traits\ApiResponse;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -73,21 +71,16 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        try {
-            // policy
-            Gate::authorize('store', Post::class);
-            // dd($request->input('data.attributes'));
-            // return new PostResource(Post::create($request->mappedAttributes()));
-            $post = Post::create($request->input('data.attributes'));
-            $post->tags()->sync($request->input('data.attributes.tags'));
+        // policy
+        Gate::authorize('store', Post::class);
+        // dd($request->input('data.attributes'));
+        // return new PostResource(Post::create($request->mappedAttributes()));
+        $post = Post::create($request->input('data.attributes'));
+        $post->tags()->sync($request->input('data.attributes.tags'));
 
-            // return response()->json(new PostResource($post), 201);}
+        // return response()->json(new PostResource($post), 201);}
 
-            return new PostResource($post);
-        } catch (AuthorizationException $th) {
-            return $this->error('You are not authorised for this action!', 403);
-            // throw $th;
-        }
+        return new PostResource($post);
 
     }
 
@@ -96,13 +89,10 @@ class PostController extends Controller
      */
     public function show($post_id)
     {
-        try {
-            $post = Post::findorFail($post_id);
+        $post = Post::findorFail($post_id);
 
-            return new PostResource($post);
-        } catch (ModelNotFoundException $th) {
-            return $this->error('Post not found!', 404);
-        }
+        return new PostResource($post);
+
     }
 
     /**
@@ -110,20 +100,15 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, $post_id)
     {
-        try {
-            $post = Post::findorFail($post_id);
-            Gate::authorize('update', $post);
-            $post->update($request->input('data.attributes'));
-            if ($request->exists('data.attributes.tags')) {
-                $post->tags()->sync($request->input('data.attributes.tags'));
-            }
-
-            return new PostResource($post);
-        } catch (ModelNotFoundException $th) {
-            return $this->error('Post not found!', 404);
-        } catch (AuthorizationException $th) {
-            return $this->error('You are not authorised for this action!', 403);
+        $post = Post::findorFail($post_id);
+        Gate::authorize('update', $post);
+        $post->update($request->input('data.attributes'));
+        if ($request->exists('data.attributes.tags')) {
+            $post->tags()->sync($request->input('data.attributes.tags'));
         }
+
+        return new PostResource($post);
+
     }
 
     /**
@@ -131,7 +116,6 @@ class PostController extends Controller
      */
     public function replace(ReplacePostRequest $request, $post_id)
     {
-        try {
             $post = Post::findorFail($post_id);
             Gate::authorize('replace', $post);
             // dd($request->toArray());
@@ -139,11 +123,7 @@ class PostController extends Controller
             $post->tags()->sync($request->input('data.attributes.tags'));
 
             return new PostResource($post);
-        } catch (ModelNotFoundException $th) {
-            return $this->error('Post not found!', 404);
-        } catch (AuthorizationException $th) {
-            return $this->error('You are not authorised for this action!', 403);
-        }
+ 
     }
 
     /**
@@ -151,16 +131,11 @@ class PostController extends Controller
      */
     public function destroy($post_id)
     {
-        try {
             $post = Post::findorFail($post_id);
             Gate::authorize('delete', $post);
             $post->delete();
 
             return $this->ok('Post Deleted!');
-        } catch (ModelNotFoundException $th) {
-            return $this->error('Post not found!', 404);
-        } catch (AuthorizationException $th) {
-            return $this->error('You are not authorised for this action!', 403);
-        }
+ 
     }
 }

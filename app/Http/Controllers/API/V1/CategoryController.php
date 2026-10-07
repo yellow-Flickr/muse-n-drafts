@@ -28,13 +28,10 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        try {
             Gate::authorize('create', Category::class);
 
             return new CategoryResource(Category::create($request->input('data.attributes')));
-        } catch (AuthorizationException $th) {
-            return $this->error('You are not authorised for this action!', 403);
-        }
+  
     }
 
     /**
@@ -42,14 +39,11 @@ class CategoryController extends Controller
      */
     public function show($categoryID)
     {
-        try {
             $category = Category::findOrFail($categoryID);
 
             return new CategoryResource($category);
 
-        } catch (ModelNotFoundException $th) {
-            return $this->error('Category not found!', 404);
-        }
+  
     }
 
     /**
@@ -57,17 +51,12 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, $categoryID)
     {
-        try {
             $category = Category::findOrFail($categoryID);
             Gate::authorize('update', $category);
             $category->update($request->input('data.attributes'));
 
             return new CategoryResource($category);
-        } catch (ModelNotFoundException $th) {
-            return $this->error('Category not found!', 404);
-        } catch (AuthorizationException $th) {
-            return $this->error('You are not authorised for this action!', 403);
-        }
+ 
     }
 
     /**
@@ -75,17 +64,12 @@ class CategoryController extends Controller
      */
     public function replace(CategoryRequest $request, $categoryID)
     {
-        try {
             $category = Category::findOrFail($categoryID);
             Gate::authorize('update', $category);
             $category->update($request->input('data.attributes'));
 
             return new CategoryResource($category);
-        } catch (ModelNotFoundException $th) {
-            return $this->error('Category not found!', 404);
-        } catch (AuthorizationException $th) {
-            return $this->error('You are not authorised for this action!', 403);
-        }
+ 
     }
 
     /**
@@ -93,16 +77,11 @@ class CategoryController extends Controller
      */
     public function destroy($categoryID)
     {
-        try {
             $category = Category::findOrFail($categoryID);
             Gate::authorize('delete', $category);
             $category->delete();
 
             return $this->ok('Category Deleted!');
-        } catch (ModelNotFoundException $th) {
-            return $this->error('Category not found!', 404);
-        } catch (AuthorizationException $th) {
-            return $this->error('You are not authorised for this action!', 403);
-        }
+
     }
 }

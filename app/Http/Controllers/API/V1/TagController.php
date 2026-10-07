@@ -7,8 +7,6 @@ use App\Http\Requests\API\V1\TagRequest;
 use App\Http\Resources\API\V1\TagResource;
 use App\Models\Tag;
 use App\Traits\ApiResponse;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Gate;
 
 class TagController extends Controller
@@ -28,13 +26,9 @@ class TagController extends Controller
      */
     public function store(TagRequest $request)
     {
-        try {
-            Gate::authorize('create', Tag::class);
+        Gate::authorize('create', Tag::class);
 
-            return new TagResource(Tag::create($request->input('data.attributes')));
-        } catch (AuthorizationException $th) {
-            $this->error('You are not authorised for this action!', 403);
-        }
+        return new TagResource(Tag::create($request->input('data.attributes')));
     }
 
     /**
@@ -42,14 +36,11 @@ class TagController extends Controller
      */
     public function show($tagID)
     {
-        try {
 
-            $tag = Tag::findOrFail($tagID);
+        $tag = Tag::findOrFail($tagID);
 
-            return new TagResource($tag);
-        } catch (ModelNotFoundException $th) {
-            $this->error('Tag not found!', 404);
-        }
+        return new TagResource($tag);
+
     }
 
     /**
@@ -57,17 +48,12 @@ class TagController extends Controller
      */
     public function update(TagRequest $request, $tagID)
     {
-        try {
-            $tag = Tag::findOrFail($tagID);
-            Gate::authorize('update', $tag);
-            $tag->update($request->input('data.attributes'));
+        $tag = Tag::findOrFail($tagID);
+        Gate::authorize('update', $tag);
+        $tag->update($request->input('data.attributes'));
 
-            return new TagResource($tag);
-        } catch (ModelNotFoundException $th) {
-            $this->error('Tag not found!', 404);
-        } catch (AuthorizationException $th) {
-            $this->error('You are not authorised for this action!', 403);
-        }
+        return new TagResource($tag);
+
     }
 
     /**
@@ -75,17 +61,12 @@ class TagController extends Controller
      */
     public function replace(TagRequest $request, $tagID)
     {
-        try {
-            $tag = Tag::findOrFail($tagID);
-            Gate::authorize('replace', $tag);
-            $tag->update($request->input('data.attributes'));
+        $tag = Tag::findOrFail($tagID);
+        Gate::authorize('replace', $tag);
+        $tag->update($request->input('data.attributes'));
 
-            return new TagResource($tag);
-        } catch (ModelNotFoundException $th) {
-            $this->error('Tag not found!', 404);
-        } catch (AuthorizationException $th) {
-            $this->error('You are not authorised for this action!', 403);
-        }
+        return new TagResource($tag);
+
     }
 
     /**
@@ -93,16 +74,11 @@ class TagController extends Controller
      */
     public function destroy($tagID)
     {
-        try {
-            $tag = Tag::findOrFail($tagID);
-            Gate::authorize('delete', $tag);
-            $tag->delete($tag);
+        $tag = Tag::findOrFail($tagID);
+        Gate::authorize('delete', $tag);
+        $tag->delete($tag);
 
-            return $this->ok('Tag deleted!');
-        } catch (ModelNotFoundException $th) {
-            $this->error('Tag not found!', 404);
-        } catch (AuthorizationException $th) {
-            $this->error('You are not authorised for this action!', 403);
-        }
+        return $this->ok('Tag deleted!');
+
     }
 }

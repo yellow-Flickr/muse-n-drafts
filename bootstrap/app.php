@@ -1,6 +1,8 @@
 <?php
 
 use App\Traits\ApiResponse;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -8,6 +10,8 @@ use Illuminate\Http\Request;
 use Laravel\Sanctum\Http\Middleware\CheckAbilities;
 use Laravel\Sanctum\Http\Middleware\CheckForAnyAbility;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -32,26 +36,74 @@ return Application::configure(basePath: dirname(__DIR__))
             fn (Request $request) => $request->is('api/*'),
         );
 
-        $exceptions->render(function (AccessDeniedHttpException $e, Request $request) {
-
-           $responder = new class
-            {
-                use ApiResponse;
-            };
-            return $responder->error([
-                'message' => 'You are not authorized to perform this action.',
-            ], 403);
-        });
-
-        $exceptions->render(function (
-            Throwable $exception,
-            Request $request
-        ) {
+        $exceptions->render(function (NotFoundHttpException $e, Request $request) {
             $responder = new class
             {
                 use ApiResponse;
             };
 
+            if ($e->getPrevious() instanceof ModelNotFoundException) {
+                $model = class_basename($e->getPrevious()->getModel());
+
+                return $responder->error([
+                    'message' => $model.' not found!',
+                ], 404);
+            }
+
+            return $responder->error([
+                'message' => $e->getMessage(),
+            ], 404);
+        });
+
+        $exceptions->render(function (AuthenticationException $e, Request $request) {
+            $responder = new class
+            {
+                use ApiResponse;
+            };
+
+            return $responder->error([
+                'message' => $e->getMessage(),
+            ], 401);
+        });
+
+        $exceptions->render(function (UnauthorizedHttpException $e, Request $request) {
+            $responder = new class
+            {
+                use ApiResponse;
+            };
+
+            return $responder->error([
+                'message' => $e->getMessage(),
+            ], 401);
+        });
+
+        $exceptions->render(function (AccessDeniedHttpException $e, Request $request) {
+            $responder = new class
+            {
+                use ApiResponse;
+            };
+
+            return $responder->error([
+                'message' => 'You are not authorized to perform this action.',
+            ], 403);
+        });
+
+        $exceptions->render(function (AccessDeniedHttpException $e, Request $request) {
+            $responder = new class
+            {
+                use ApiResponse;
+            };
+
+            return $responder->error([
+                'message' => 'You are not authorized to perform this action.',
+            ], 403);
+        });
+
+        $exceptions->render(function (Throwable $exception, Request $request) {
+            $responder = new class
+            {
+                use ApiResponse;
+            };
             // $status = $exception instanceof HttpExceptionInterface
             //     ? $exception->getStatusCode()
             //     : 500;

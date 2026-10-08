@@ -20,7 +20,18 @@ class PostController extends Controller
     use ApiResponse;
 
     /**
-     * Display a listing of the resource.
+     * List posts.
+     *
+     * Returns a paginated list. Without a token, all posts are listed; with a
+     * valid token, only the authenticated user's posts are listed.
+     *
+     * @group Posts
+     * @unauthenticated
+     * @queryParam search string Search post titles and content. Example: writing
+     * @queryParam category string Filter by the exact category name. Example: Essays
+     * @queryParam tag string Filter by the exact tag name. Example: Craft
+     * @queryParam sort string Sort by a post column; prefix with "-" for descending order. Defaults to id ascending. Example: -created_at
+     * @queryParam page integer The page number to return. Example: 2
      */
     public function index(Request $request, PostSearchQuery $postSearch, PostFilterQuery $postFilter)
     {
@@ -67,7 +78,13 @@ class PostController extends Controller
     // }
 
     /**
-     * Store a newly created resource in storage.
+     * Create a post.
+     *
+     * @group Posts
+     * @bodyParam data.attributes.title string required The post title (maximum 100 characters). Example: Notes on revision
+     * @bodyParam data.attributes.content string required The post content. Example: A short reflection on revising a first draft.
+     * @bodyParam data.attributes.category string required The name of an existing category. Example: Essays
+     * @bodyParam data.attributes.tags string[] Optional names of existing tags (maximum 4). Example: ["Craft", "Writing"]
      */
     public function store(StorePostRequest $request)
     {
@@ -85,7 +102,11 @@ class PostController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Get a post.
+     *
+     * @group Posts
+     * @unauthenticated
+     * @urlParam post integer required The post ID. Example: 1
      */
     public function show($post_id)
     {
@@ -96,7 +117,14 @@ class PostController extends Controller
     }
 
     /**
-     * Update the specified resource in storage. PATCH
+     * Update a post.
+     *
+     * @group Posts
+     * @urlParam post integer required The post ID. Example: 1
+     * @bodyParam data.attributes.title string The post title (maximum 100 characters). Example: Notes on revision
+     * @bodyParam data.attributes.content string The post content. Example: A short reflection on revising a first draft.
+     * @bodyParam data.attributes.category string The name of an existing category. Example: Essays
+     * @bodyParam data.attributes.tags string[] Names of existing tags (maximum 4). Example: ["Craft", "Writing"]
      */
     public function update(UpdatePostRequest $request, $post_id)
     {
@@ -112,7 +140,14 @@ class PostController extends Controller
     }
 
     /**
-     * Replace the specified resource in storage. PUT
+     * Replace a post.
+     *
+     * @group Posts
+     * @urlParam post integer required The post ID. Example: 1
+     * @bodyParam data.attributes.title string required The post title (maximum 100 characters). Example: Notes on revision
+     * @bodyParam data.attributes.content string required The post content. Example: A short reflection on revising a first draft.
+     * @bodyParam data.attributes.category string required The name of an existing category. Example: Essays
+     * @bodyParam data.attributes.tags string[] Optional names of existing tags (maximum 4). Example: ["Craft", "Writing"]
      */
     public function replace(ReplacePostRequest $request, $post_id)
     {
@@ -127,7 +162,10 @@ class PostController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete a post.
+     *
+     * @group Posts
+     * @urlParam post integer required The post ID. Example: 1
      */
     public function destroy($post_id)
     {

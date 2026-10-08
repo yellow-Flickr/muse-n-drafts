@@ -15,17 +15,26 @@ class CategoryController extends Controller
 {
     use ApiResponse;
 
-    /**
-     * Display a listing of the resource.
-     */
+        /**
+         * List categories.
+         *
+         * Returns a paginated list of categories.
+         *
+         * @group Categories
+         * @unauthenticated
+         * @queryParam page integer The page number to return. Example: 2
+         */
     public function index()
     {
         return CategoryResource::collection(Category::paginate());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+        /**
+         * Create a category.
+         *
+         * @group Categories
+         * @bodyParam data.attributes.name string required The category name (maximum 10 characters). Example: Essays
+         */
     public function store(CategoryRequest $request)
     {
             Gate::authorize('create', Category::class);
@@ -34,9 +43,12 @@ class CategoryController extends Controller
   
     }
 
-    /**
-     * Display the specified resource.
-     */
+        /**
+         * Get a category.
+         *
+         * @group Categories
+         * @urlParam category integer required The category ID. Example: 1
+         */
     public function show($categoryID)
     {
             $category = Category::findOrFail($categoryID);
@@ -46,9 +58,13 @@ class CategoryController extends Controller
   
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+        /**
+         * Update a category.
+         *
+         * @group Categories
+         * @urlParam category integer required The category ID. Example: 1
+         * @bodyParam data.attributes.name string required The category name (maximum 10 characters). Example: Essays
+         */
     public function update(CategoryRequest $request, $categoryID)
     {
             $category = Category::findOrFail($categoryID);
@@ -59,9 +75,13 @@ class CategoryController extends Controller
  
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+        /**
+         * Replace a category.
+         *
+         * @group Categories
+         * @urlParam category integer required The category ID. Example: 1
+         * @bodyParam data.attributes.name string required The category name (maximum 10 characters). Example: Essays
+         */
     public function replace(CategoryRequest $request, $categoryID)
     {
             $category = Category::findOrFail($categoryID);
@@ -72,9 +92,12 @@ class CategoryController extends Controller
  
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+        /**
+         * Delete a category.
+         *
+         * @group Categories
+         * @urlParam category integer required The category ID. Example: 1
+         */
     public function destroy($categoryID)
     {
             $category = Category::findOrFail($categoryID);

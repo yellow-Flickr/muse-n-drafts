@@ -69,11 +69,12 @@ class Post extends Model
     #[Scope]
     public function scopeSort(
         Builder $query,
-       ?string $sort = 'id'
+        ?string $sort = 'id'
     ) {
         $direction = 'asc';
+        $sort = $sort ?: 'id';
 
-        if (strpos($sort, '-') == 0) {
+        if (str_starts_with($sort, '-')) {
             $direction = 'desc';
             $sort = substr($sort, 1);
         }

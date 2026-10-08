@@ -1,4 +1,4 @@
-name: Endpoints
+name: Authentication
 description: ''
 endpoints:
   -
@@ -8,16 +8,15 @@ endpoints:
     uri: api/v1/login
     metadata:
       custom: []
-      groupName: Endpoints
+      groupName: Authentication
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: ''
-      description: ''
-      authenticated: true
+      title: 'Log in.'
+      description: 'Authenticate with an email address and password to receive an API token.'
+      authenticated: false
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -28,35 +27,32 @@ endpoints:
       email:
         custom: []
         name: email
-        description: 'Must be a valid email address.'
+        description: "The user's email address."
         required: true
-        example: gbailey@example.net
+        example: reader@example.com
         type: string
         enumValues: []
-        exampleWasSpecified: false
+        exampleWasSpecified: true
         nullable: false
         deprecated: false
       password:
         custom: []
         name: password
-        description: 'Must be at least 8 characters.'
+        description: "The user's password (minimum 8 characters)."
         required: true
-        example: '+-0pBNvYgxwmi/#iw'
+        example: password123
         type: string
         enumValues: []
-        exampleWasSpecified: false
+        exampleWasSpecified: true
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      email: gbailey@example.net
-      password: '+-0pBNvYgxwmi/#iw'
+      email: reader@example.com
+      password: password123
     fileParameters: []
     responses: []
     responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    auth: []
     controller: null
     method: null
     route: null
@@ -67,16 +63,15 @@ endpoints:
     uri: api/v1/register
     metadata:
       custom: []
-      groupName: Endpoints
+      groupName: Authentication
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: ''
-      description: ''
-      authenticated: true
+      title: Register.
+      description: 'Create a reader account.'
+      authenticated: false
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -87,1313 +82,56 @@ endpoints:
       name:
         custom: []
         name: name
-        description: ''
+        description: "The user's name."
         required: true
-        example: architecto
+        example: 'Avery Reader'
         type: string
         enumValues: []
-        exampleWasSpecified: false
+        exampleWasSpecified: true
         nullable: false
         deprecated: false
       email:
         custom: []
         name: email
-        description: 'Must be a valid email address.'
+        description: 'A unique email address.'
         required: true
-        example: zbailey@example.net
+        example: reader@example.com
         type: string
         enumValues: []
-        exampleWasSpecified: false
+        exampleWasSpecified: true
         nullable: false
         deprecated: false
       password:
         custom: []
         name: password
-        description: 'Must be at least 8 characters.'
+        description: "The user's password (minimum 8 characters)."
         required: true
-        example: '-0pBNvYgxw'
+        example: password123
         type: string
         enumValues: []
-        exampleWasSpecified: false
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      password_confirmation:
+        custom: []
+        name: password_confirmation
+        description: 'Must match the password.'
+        required: true
+        example: password123
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      name: architecto
-      email: zbailey@example.net
-      password: '-0pBNvYgxw'
+      name: 'Avery Reader'
+      email: reader@example.com
+      password: password123
+      password_confirmation: password123
     fileParameters: []
     responses: []
     responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - GET
-    uri: 'api/v1/posts/{post}'
-    metadata:
-      custom: []
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Display the specified resource.'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      post:
-        custom: []
-        name: post
-        description: 'The post.'
-        required: true
-        example: architecto
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      post: architecto
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 404
-        content: '{"errors":{"message":"Post not found!"},"status":404}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - GET
-    uri: api/v1/posts
-    metadata:
-      custom: []
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Display a listing of the resource.'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"data":[{"type":"post","id":1,"attributes":{"title":"Inventore quos totam fugiat.","content":"Aut modi aut placeat a. Iusto odit dolorem ducimus sint rem blanditiis nihil quisquam. Odit rem a cumque eum aut ut.","category":"esse","tags":["itaque"],"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"post","id":2,"attributes":{"title":"Assumenda id porro ipsam et quo numquam ut.","content":"Iste nemo numquam harum quasi est et numquam. Aut esse facere earum eos quibusdam.","category":"placeat","tags":["ea","possimus","voluptatem"],"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"post","id":3,"attributes":{"title":"Qui nihil et soluta est exercitationem nulla aut corrupti.","content":"Illum adipisci qui ea sequi cumque. Alias impedit autem quia laborum. Id dolor quidem maxime quas consequatur cum quos. Ut occaecati tempore omnis rem quaerat deleniti cum.","category":"placeat","tags":["possimus"],"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"post","id":4,"attributes":{"title":"Earum qui ut sunt nihil suscipit atque odio.","content":"In maxime quod sequi delectus sed. Consequatur qui minus ea rerum. Optio at iusto adipisci consequuntur in sunt voluptate. Quis assumenda magnam animi nostrum aliquid.","category":"enim","tags":["rerum","odit"],"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"post","id":5,"attributes":{"title":"Aliquam et aut quisquam impedit delectus qui.","content":"Enim similique ratione commodi. Quia officiis tempora facere id nobis minus repudiandae. Ut nihil explicabo neque nulla hic. Modi quis officiis totam dolores molestias eos sit est.","category":"nesciunt","tags":["vel"],"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"post","id":6,"attributes":{"title":"Voluptatem explicabo consequuntur ea vitae excepturi sint quas.","content":"Ut quia non laborum reiciendis inventore. Et ut blanditiis omnis deserunt modi quis. Amet eaque eveniet autem aut ad.","category":"repellendus","tags":["dolores"],"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"post","id":7,"attributes":{"title":"Neque reprehenderit nam minus velit quidem veritatis corrupti.","content":"Dolorem magni quibusdam debitis. Minima sint velit exercitationem sed placeat et.","category":"voluptas","tags":["dolores"],"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"post","id":8,"attributes":{"title":"Est unde nulla quis quia.","content":"Ut corporis eos animi doloribus culpa voluptates quasi et. Dicta minima et accusantium dolore non. Fuga ducimus accusamus iste dignissimos nemo. Aliquid debitis est possimus consequatur eaque quod.","category":"esse","tags":["rerum","possimus"],"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"post","id":9,"attributes":{"title":"Quia rerum corrupti non qui quas eum sit.","content":"Velit qui repudiandae aut natus perspiciatis quibusdam. Delectus qui et veritatis. Ut est qui modi sed amet. Et et aliquid provident quidem dolore. Nulla fugiat cumque odit.","category":"quod","tags":["architecto","et"],"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"post","id":10,"attributes":{"title":"Rerum dolorum voluptatem dicta doloremque voluptatum consequatur voluptatem voluptate.","content":"Consequatur ipsa amet doloribus sit voluptate et laudantium. Debitis quia et atque soluta. Sit praesentium voluptatem eligendi nulla qui culpa sed amet.","category":"explicabo","tags":["possimus"],"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"post","id":11,"attributes":{"title":"Saepe error adipisci ut maiores.","content":"Aut harum aperiam ut provident. Similique ducimus ea illum rerum dolorum dolorum. Perferendis excepturi maiores aliquam et.","category":"ut","tags":["quas","dolore"],"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"post","id":12,"attributes":{"title":"Asperiores numquam qui harum aperiam.","content":"Id fuga ut et accusantium aliquam non reiciendis. Quas iure ab illum odit. Eius maiores sunt repellat quos ullam maiores quae nihil. Natus voluptatem suscipit distinctio tempore nostrum voluptate ex.","category":"voluptas","tags":["itaque","vel","dolore"],"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"post","id":13,"attributes":{"title":"Excepturi ut et cum temporibus quia.","content":"Sit explicabo sunt voluptatem aut consequatur et dolorum. Delectus assumenda sit id dolorem eum. Earum facere eos amet vero delectus.","category":"esse","tags":["corrupti"],"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"post","id":14,"attributes":{"title":"Ullam dolor atque sit sequi.","content":"Reprehenderit nulla omnis in architecto. Nulla quia consequuntur esse at aut. Dolor soluta possimus et ea libero aspernatur.","category":"explicabo","tags":["ea"],"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"post","id":15,"attributes":{"title":"Aut natus cum et rerum.","content":"Eaque molestiae quis ullam aut iure. Hic numquam consequuntur ea nihil veniam sint. Architecto nulla repellendus maiores in assumenda.","category":"repellendus","tags":["corrupti","dolore"],"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}}],"links":{"first":"http:\/\/localhost:8000\/api\/v1\/posts?page=1","last":"http:\/\/localhost:8000\/api\/v1\/posts?page=4","prev":null,"next":"http:\/\/localhost:8000\/api\/v1\/posts?page=2"},"meta":{"current_page":1,"from":1,"last_page":4,"links":[{"url":null,"label":"&laquo; Previous","page":null,"active":false},{"url":"http:\/\/localhost:8000\/api\/v1\/posts?page=1","label":"1","page":1,"active":true},{"url":"http:\/\/localhost:8000\/api\/v1\/posts?page=2","label":"2","page":2,"active":false},{"url":"http:\/\/localhost:8000\/api\/v1\/posts?page=3","label":"3","page":3,"active":false},{"url":"http:\/\/localhost:8000\/api\/v1\/posts?page=4","label":"4","page":4,"active":false},{"url":"http:\/\/localhost:8000\/api\/v1\/posts?page=2","label":"Next &raquo;","page":2,"active":false}],"path":"http:\/\/localhost:8000\/api\/v1\/posts","per_page":15,"to":15,"total":50}}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - GET
-    uri: api/v1/categories
-    metadata:
-      custom: []
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Display a listing of the resource.'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"data":[{"type":"category","id":1,"attributes":{"name":"explicabo","noOfPosts":5,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"category","id":2,"attributes":{"name":"ut","noOfPosts":7,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"category","id":3,"attributes":{"name":"placeat","noOfPosts":2,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"category","id":4,"attributes":{"name":"voluptas","noOfPosts":10,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"category","id":5,"attributes":{"name":"quod","noOfPosts":3,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"category","id":6,"attributes":{"name":"sequi","noOfPosts":1,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"category","id":7,"attributes":{"name":"esse","noOfPosts":7,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"category","id":8,"attributes":{"name":"repellendus","noOfPosts":8,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"category","id":9,"attributes":{"name":"nesciunt","noOfPosts":4,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"category","id":10,"attributes":{"name":"enim","noOfPosts":3,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}}],"links":{"first":"http:\/\/localhost:8000\/api\/v1\/categories?page=1","last":"http:\/\/localhost:8000\/api\/v1\/categories?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":1,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","page":null,"active":false},{"url":"http:\/\/localhost:8000\/api\/v1\/categories?page=1","label":"1","page":1,"active":true},{"url":null,"label":"Next &raquo;","page":null,"active":false}],"path":"http:\/\/localhost:8000\/api\/v1\/categories","per_page":15,"to":10,"total":10}}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - GET
-    uri: api/v1/tags
-    metadata:
-      custom: []
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Display a listing of the resource.'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"data":[{"type":"tag","id":1,"attributes":{"name":"sed","noOfPosts":3,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"tag","id":2,"attributes":{"name":"corrupti","noOfPosts":7,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"tag","id":3,"attributes":{"name":"rerum","noOfPosts":6,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"tag","id":4,"attributes":{"name":"eum","noOfPosts":2,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"tag","id":5,"attributes":{"name":"at","noOfPosts":3,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"tag","id":6,"attributes":{"name":"ea","noOfPosts":7,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"tag","id":7,"attributes":{"name":"dolorem","noOfPosts":2,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"tag","id":8,"attributes":{"name":"beatae","noOfPosts":5,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"tag","id":9,"attributes":{"name":"possimus","noOfPosts":7,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"tag","id":10,"attributes":{"name":"architecto","noOfPosts":6,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"tag","id":11,"attributes":{"name":"et","noOfPosts":4,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"tag","id":12,"attributes":{"name":"itaque","noOfPosts":6,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"tag","id":13,"attributes":{"name":"odit","noOfPosts":5,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"tag","id":14,"attributes":{"name":"vel","noOfPosts":6,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}},{"type":"tag","id":15,"attributes":{"name":"maiores","noOfPosts":5,"createdAt":"2026-10-07T14:59:15.000000Z","updatedAt":"2026-10-07T14:59:15.000000Z"}}],"links":{"first":"http:\/\/localhost:8000\/api\/v1\/tags?page=1","last":"http:\/\/localhost:8000\/api\/v1\/tags?page=2","prev":null,"next":"http:\/\/localhost:8000\/api\/v1\/tags?page=2"},"meta":{"current_page":1,"from":1,"last_page":2,"links":[{"url":null,"label":"&laquo; Previous","page":null,"active":false},{"url":"http:\/\/localhost:8000\/api\/v1\/tags?page=1","label":"1","page":1,"active":true},{"url":"http:\/\/localhost:8000\/api\/v1\/tags?page=2","label":"2","page":2,"active":false},{"url":"http:\/\/localhost:8000\/api\/v1\/tags?page=2","label":"Next &raquo;","page":2,"active":false}],"path":"http:\/\/localhost:8000\/api\/v1\/tags","per_page":15,"to":15,"total":20}}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - POST
-    uri: api/v1/posts
-    metadata:
-      custom: []
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Store a newly created resource in storage.'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      data.attributes:
-        custom: []
-        name: data.attributes
-        description: ''
-        required: false
-        example: []
-        type: object
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data:
-        custom: []
-        name: data
-        description: ''
-        required: false
-        example: []
-        type: object
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data.attributes.title:
-        custom: []
-        name: data.attributes.title
-        description: 'Must not be greater than 100 characters.'
-        required: true
-        example: b
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data.attributes.content:
-        custom: []
-        name: data.attributes.content
-        description: ''
-        required: true
-        example: architecto
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data.attributes.category:
-        custom: []
-        name: data.attributes.category
-        description: 'Must match an existing stored value.'
-        required: true
-        example: architecto
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data.attributes.tags:
-        custom: []
-        name: data.attributes.tags
-        description: 'Must match an existing stored value.'
-        required: false
-        example:
-          - architecto
-        type: 'string[]'
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      data:
-        attributes:
-          title: b
-          content: architecto
-          category: architecto
-          tags:
-            - architecto
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - DELETE
-    uri: 'api/v1/posts/{post}'
-    metadata:
-      custom: []
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Remove the specified resource from storage.'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      post:
-        custom: []
-        name: post
-        description: 'The post.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      post: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - PATCH
-    uri: 'api/v1/posts/{post}'
-    metadata:
-      custom: []
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Update the specified resource in storage. PATCH'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      post:
-        custom: []
-        name: post
-        description: 'The post.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      post: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      data.attributes:
-        custom: []
-        name: data.attributes
-        description: ''
-        required: false
-        example: []
-        type: object
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data:
-        custom: []
-        name: data
-        description: ''
-        required: false
-        example: []
-        type: object
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data.attributes.title:
-        custom: []
-        name: data.attributes.title
-        description: 'Must not be greater than 100 characters.'
-        required: false
-        example: b
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data.attributes.content:
-        custom: []
-        name: data.attributes.content
-        description: ''
-        required: false
-        example: architecto
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data.attributes.category:
-        custom: []
-        name: data.attributes.category
-        description: 'Must match an existing stored value.'
-        required: false
-        example: architecto
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data.attributes.tags:
-        custom: []
-        name: data.attributes.tags
-        description: 'Must match an existing stored value.'
-        required: false
-        example:
-          - architecto
-        type: 'string[]'
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      data:
-        attributes:
-          title: b
-          content: architecto
-          category: architecto
-          tags:
-            - architecto
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - PUT
-    uri: 'api/v1/posts/{post}'
-    metadata:
-      custom: []
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Replace the specified resource in storage. PUT'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      post:
-        custom: []
-        name: post
-        description: 'The post.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      post: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      data.attributes:
-        custom: []
-        name: data.attributes
-        description: ''
-        required: false
-        example: []
-        type: object
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data:
-        custom: []
-        name: data
-        description: ''
-        required: false
-        example: []
-        type: object
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data.attributes.title:
-        custom: []
-        name: data.attributes.title
-        description: 'Must not be greater than 100 characters.'
-        required: true
-        example: b
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data.attributes.content:
-        custom: []
-        name: data.attributes.content
-        description: ''
-        required: true
-        example: architecto
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data.attributes.category:
-        custom: []
-        name: data.attributes.category
-        description: 'Must match an existing stored value.'
-        required: true
-        example: architecto
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data.attributes.tags:
-        custom: []
-        name: data.attributes.tags
-        description: 'Must match an existing stored value.'
-        required: false
-        example:
-          - architecto
-        type: 'string[]'
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      data:
-        attributes:
-          title: b
-          content: architecto
-          category: architecto
-          tags:
-            - architecto
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - GET
-    uri: 'api/v1/categories/{category}'
-    metadata:
-      custom: []
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Display the specified resource.'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      category:
-        custom: []
-        name: category
-        description: 'The category.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      category: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 401
-        content: '{"errors":{"message":"Unauthenticated."},"status":401}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - POST
-    uri: api/v1/categories
-    metadata:
-      custom: []
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Store a newly created resource in storage.'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      data.attributes:
-        custom: []
-        name: data.attributes
-        description: ''
-        required: false
-        example: []
-        type: object
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data:
-        custom: []
-        name: data
-        description: ''
-        required: false
-        example: []
-        type: object
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data.attributes.name:
-        custom: []
-        name: data.attributes.name
-        description: 'Must not be greater than 10 characters.'
-        required: true
-        example: bngzmi
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      data:
-        attributes:
-          name: bngzmi
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - DELETE
-    uri: 'api/v1/categories/{category}'
-    metadata:
-      custom: []
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Remove the specified resource from storage.'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      category:
-        custom: []
-        name: category
-        description: 'The category.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      category: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - PATCH
-    uri: 'api/v1/categories/{category}'
-    metadata:
-      custom: []
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Update the specified resource in storage.'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      category:
-        custom: []
-        name: category
-        description: 'The category.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      category: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      data.attributes:
-        custom: []
-        name: data.attributes
-        description: ''
-        required: false
-        example: []
-        type: object
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data:
-        custom: []
-        name: data
-        description: ''
-        required: false
-        example: []
-        type: object
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data.attributes.name:
-        custom: []
-        name: data.attributes.name
-        description: 'Must not be greater than 10 characters.'
-        required: true
-        example: bngzmi
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      data:
-        attributes:
-          name: bngzmi
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - PUT
-    uri: 'api/v1/categories/{category}'
-    metadata:
-      custom: []
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Update the specified resource in storage.'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      category:
-        custom: []
-        name: category
-        description: 'The category.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      category: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      data.attributes:
-        custom: []
-        name: data.attributes
-        description: ''
-        required: false
-        example: []
-        type: object
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data:
-        custom: []
-        name: data
-        description: ''
-        required: false
-        example: []
-        type: object
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data.attributes.name:
-        custom: []
-        name: data.attributes.name
-        description: 'Must not be greater than 10 characters.'
-        required: true
-        example: bngzmi
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      data:
-        attributes:
-          name: bngzmi
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - GET
-    uri: 'api/v1/tags/{tag}'
-    metadata:
-      custom: []
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Display the specified resource.'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      tag:
-        custom: []
-        name: tag
-        description: 'The tag.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      tag: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 401
-        content: '{"errors":{"message":"Unauthenticated."},"status":401}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - POST
-    uri: api/v1/tags
-    metadata:
-      custom: []
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Store a newly created resource in storage.'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      data.attributes:
-        custom: []
-        name: data.attributes
-        description: ''
-        required: false
-        example: []
-        type: object
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data:
-        custom: []
-        name: data
-        description: ''
-        required: false
-        example: []
-        type: object
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data.attributes.name:
-        custom: []
-        name: data.attributes.name
-        description: 'Must not be greater than 10 characters.'
-        required: true
-        example: bngzmi
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      data:
-        attributes:
-          name: bngzmi
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - DELETE
-    uri: 'api/v1/tags/{tag}'
-    metadata:
-      custom: []
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Remove the specified resource from storage.'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      tag:
-        custom: []
-        name: tag
-        description: 'The tag.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      tag: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - PATCH
-    uri: 'api/v1/tags/{tag}'
-    metadata:
-      custom: []
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Update the specified resource in storage.'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      tag:
-        custom: []
-        name: tag
-        description: 'The tag.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      tag: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      data.attributes:
-        custom: []
-        name: data.attributes
-        description: ''
-        required: false
-        example: []
-        type: object
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data:
-        custom: []
-        name: data
-        description: ''
-        required: false
-        example: []
-        type: object
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data.attributes.name:
-        custom: []
-        name: data.attributes.name
-        description: 'Must not be greater than 10 characters.'
-        required: true
-        example: bngzmi
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      data:
-        attributes:
-          name: bngzmi
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - PUT
-    uri: 'api/v1/tags/{tag}'
-    metadata:
-      custom: []
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Update the specified resource in storage.'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      tag:
-        custom: []
-        name: tag
-        description: 'The tag.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      tag: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      data.attributes:
-        custom: []
-        name: data.attributes
-        description: ''
-        required: false
-        example: []
-        type: object
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data:
-        custom: []
-        name: data
-        description: ''
-        required: false
-        example: []
-        type: object
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      data.attributes.name:
-        custom: []
-        name: data.attributes.name
-        description: 'Must not be greater than 10 characters.'
-        required: true
-        example: bngzmi
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      data:
-        attributes:
-          name: bngzmi
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    auth: []
     controller: null
     method: null
     route: null
@@ -1404,47 +142,12 @@ endpoints:
     uri: api/v1/logout
     metadata:
       custom: []
-      groupName: Endpoints
+      groupName: Authentication
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: ''
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - GET
-    uri: api/user
-    metadata:
-      custom: []
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: ''
-      description: ''
+      title: 'Log out.'
+      description: 'Revoke the current API access token.'
       authenticated: true
       deprecated: false
     headers:
@@ -1461,13 +164,14 @@ endpoints:
     responses:
       -
         custom: []
-        status: 401
-        content: '{"errors":{"message":"Unauthenticated."},"status":401}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
+        status: 200
+        content: |-
+          {
+              "message": "User Logged Out!",
+          "status": 200
+          }
+        headers: []
+        description: ''
     responseFields: []
     auth:
       - headers

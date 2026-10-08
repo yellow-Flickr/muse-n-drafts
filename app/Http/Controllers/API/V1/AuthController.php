@@ -16,6 +16,18 @@ class AuthController extends Controller
 {
     use ApiResponse;
 
+    /**
+     * Log in.
+     *
+     * Authenticate with an email address and password to receive an API token.
+     *
+     * @unauthenticated
+     *
+     * @group Authentication
+     *
+     * @bodyParam email string required The user's email address. Example: reader@example.com
+     * @bodyParam password string required The user's password (minimum 8 characters). Example: password123
+     */
     public function login(LoginUserRequest $request)
     {
         // $request->validate($request->);
@@ -24,18 +36,31 @@ class AuthController extends Controller
             return $this->error('Invalid Credentials: Try Again!', 404);
         }
 
-        
         $user = User::firstWhere('email', $request->email);
         // dd($user);
 
         return $this->ok(
             message: 'Authenticated',
             data: [
-                'token' => $user->createToken('API token for '.$user->email,TokenAbilities::getAbilities($user->role), now()->addMonth())->plainTextToken,
+                'token' => $user->createToken('API token for '.$user->email, TokenAbilities::getAbilities($user->role), now()->addMonth())->plainTextToken,
             ]
         );
     }
 
+    /**
+    * Register.
+     *
+    * Create a reader account.
+     *
+     * @unauthenticated
+     *
+     * @group Authentication
+     *
+    * @bodyParam name string required The user's name. Example: Avery Reader
+    * @bodyParam email string required A unique email address. Example: reader@example.com
+    * @bodyParam password string required The user's password (minimum 8 characters). Example: password123
+    * @bodyParam password_confirmation string required Must match the password. Example: password123
+     */
     public function register(UserRequest $request)
     {
         // $request->validate($request->all())
@@ -44,12 +69,27 @@ class AuthController extends Controller
             'role' => 'reader',
         ]);
 
-        return $this->ok(message: 'Registration Successful', data: new UserResource($user));
+        return $this->ok(message: 'Registration Successful!', data: new UserResource($user));
     }
 
+    /**
+    * Log out.
+     *
+    * Revoke the current API access token.
+     *
+     * @authenticated
+     *
+     * @group Authentication
+     *
+     * @response 200 {
+     *     "message": "User Logged Out!",
+    "status": 200
+     * }
+     */
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
+
         return $this->ok('User Logged Out!');
     }
 

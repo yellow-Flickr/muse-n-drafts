@@ -14,7 +14,13 @@ class TagController extends Controller
     use ApiResponse;
 
     /**
-     * Display a listing of the resource.
+     * List tags.
+     *
+     * Returns a paginated list of tags.
+     *
+     * @group Tags
+     * @unauthenticated
+     * @queryParam page integer The page number to return. Example: 2
      */
     public function index()
     {
@@ -22,7 +28,10 @@ class TagController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create a tag.
+     *
+     * @group Tags
+     * @bodyParam data.attributes.name string required The tag name (maximum 10 characters). Example: Craft
      */
     public function store(TagRequest $request)
     {
@@ -32,7 +41,10 @@ class TagController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Get a tag.
+     *
+     * @group Tags
+     * @urlParam tag integer required The tag ID. Example: 1
      */
     public function show($tagID)
     {
@@ -44,7 +56,11 @@ class TagController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update a tag.
+     *
+     * @group Tags
+     * @urlParam tag integer required The tag ID. Example: 1
+     * @bodyParam data.attributes.name string required The tag name (maximum 10 characters). Example: Craft
      */
     public function update(TagRequest $request, $tagID)
     {
@@ -57,7 +73,11 @@ class TagController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Replace a tag.
+     *
+     * @group Tags
+     * @urlParam tag integer required The tag ID. Example: 1
+     * @bodyParam data.attributes.name string required The tag name (maximum 10 characters). Example: Craft
      */
     public function replace(TagRequest $request, $tagID)
     {
@@ -70,7 +90,10 @@ class TagController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete a tag.
+     *
+     * @group Tags
+     * @urlParam tag integer required The tag ID. Example: 1
      */
     public function destroy($tagID)
     {

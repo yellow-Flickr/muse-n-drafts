@@ -10,7 +10,10 @@ use App\Policies\CategoryPolicy;
 use App\Policies\PostPolicy;
 use App\Policies\TagPolicy;
 use App\Policies\UserPolicy;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -32,5 +35,17 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(User::class, UserPolicy::class);
         Gate::policy(Category::class, CategoryPolicy::class);
         Gate::policy(Tag::class, TagPolicy::class);
+
+        RateLimiter::for('global', function (Request $request) {
+            return Limit::perMinute(50);
+        });
+
+        RateLimiter::for('auth', function (Request $request) {
+            return Limit::perMinute(10);
+        });
+
+        RateLimiter::for('crud', function (Request $request) {
+            return Limit::perMinute(25);
+        });
     }
 }
